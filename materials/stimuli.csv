@@ -1,0 +1,11 @@
+condition,version,has_context,statement,xy,yx,neither
+risk_increase,A,true,Themaglin is associated with a higher risk of Rebosen,Themaglin causes an increase in Rebosen,Rebosen causes an increase in Themaglin,"A third factor is causally related to Themaglin and Rebosen, they are not directly related"
+risk_increase,B,true,Rebosen is associated with a higher risk of Themaglin,Rebosen causes an increase in Themaglin,Themaglin causes an increase in Rebosen,"A third factor is causally related to Rebosen and Themaglin, they are not directly related"
+prob_increase,A,true,Pneuben is associated with higher probability of Efogen,Pneuben causes an increase in Efogen,Efogen causes an increase in Pneuben,"A third factor is causally related to Pneuben and Efogen, they are not directly related"
+prob_increase,B,true,Efogen is associated with higher probability of Pneuben,Efogen causes an increase in Pneuben,Pneuben causes an increase in Efogen,"A third factor is causally related to Efogen and Pneuben, they are not directly related"
+risk_lower,A,true,Agoriv is associated with a lower risk of Ceflar,Agoriv causes a decrease in Ceflar,Ceflar causes a decrease in Agoriv,"A third factor is causally related to Agoriv and Ceflar, they are not directly related"
+risk_lower,B,true,Ceflar is associated with a lower risk of Agoriv,Ceflar causes a decrease in Agoriv,Agoriv causes a decrease in Ceflar,"A third factor is causally related to Ceflar and Agoriv, they are not directly related"
+prob_lower,A,true,Turilin is associated with lower probability of Laurem,Turilin causes a decrease in Laurem,Laurem causes a decrease in Turilin,"A third factor is causally related to Turilin and Laurem, they are not directly related"
+prob_lower,B,true,Laurem is associated with lower probability of Turilin,Laurem causes a decrease in Turilin,Turilin causes a decrease in Laurem,"A third factor is causally related to Laurem and Turilin, they are not directly related"
+assoc,A,false,Denoden is associated with Flembers,Denoden causes Flembers,Flembers causes Denoden,"A third factor is causally related to Denoden and Flembers, they are not directly related"
+assoc,B,false,Flembers is associated with Denoden,Flembers causes Denoden,Denoden causes Flembers,"A third factor is causally related to Flembers and Denoden, they are not directly related"

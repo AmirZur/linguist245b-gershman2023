@@ -1,0 +1,27 @@
+.jspsych-html-button-response-btngroup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.jspsych-html-button-response-button button {
+    white-space: normal;
+    width: 520px;
+    max-width: 90vw;
+    min-height: 48px;
+    height: auto;
+    line-height: 1.5;
+    padding: 10px 20px;
+    margin: 6px 0;
+    font-size: 15px;
+}
+.trial-statement {
+    font-style: italic;
+    font-size: 1.15em;
+    margin: 24px 0;
+    color: #222;
+}
+.jspsych-display-element p {
+    max-width: 620px;
+    margin-left: auto;
+    margin-right: auto;
+}

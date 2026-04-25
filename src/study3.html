@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Causal Implicatures Study</title>
+    <script src="https://unpkg.com/jspsych@7.3.3"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-html-button-response@1.1.2"></script>
+    <script src="https://unpkg.com/@jspsych/plugin-survey-text@1.1.2"></script>
+    <script src="https://unpkg.com/papaparse@5.4.1/papaparse.min.js"></script>
+    <link href="https://unpkg.com/jspsych@7.3.3/css/jspsych.css" rel="stylesheet" type="text/css" />
+    <link href="study3.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <script>
+        const jsPsych = initJsPsych({
+            on_finish: function() {
+                jsPsych.data.get().localSave('csv', 'study3_data.csv');
+                document.body.innerHTML = `
+                    <div style="max-width:600px;margin:100px auto;text-align:center;font-family:sans-serif;">
+                        <h2>Thank you for participating!</h2>
+                        <p>Your data has been downloaded as <strong>study3_data.csv</strong>.</p>
+                    </div>
+                `;
+            }
+        });
+
+        // When false, only the plain "associated with" condition is shown.
+        // Set to true to include risk/probability context conditions (full Study 3).
+        const include_context = false;
+
+        // Load stimuli from CSV, then build and run the experiment.
+        // Note: fetch() requires a web server — run `python3 -m http.server` from the
+        // repo root and open http://localhost:8000/src/study3.html for local testing.
+        fetch('../materials/stimuli.csv')
+            .then(r => r.text())
+            .then(csv => {
+                // Parse CSV into a conditions object keyed by condition name
+                const rows = Papa.parse(csv, { header: true, skipEmptyLines: true }).data;
+                const conditions_map = {};
+                for (const row of rows) {
+                    if (!conditions_map[row.condition]) {
+                        conditions_map[row.condition] = {
+                            name: row.condition,
+                            has_context: row.has_context === 'true'
+                        };
+                    }
+                    conditions_map[row.condition][row.version] = {
+                        statement: row.statement,
+                        xy:        row.xy,
+                        yx:        row.yx,
+                        neither:   row.neither
+                    };
+                }
+                const conditions = Object.values(conditions_map);
+
+                const active_conditions = include_context
+                    ? conditions
+                    : conditions.filter(c => !c.has_context);
+
+                let timeline = [];
+
+                // Instructions
+                timeline.push({
+                    type: jsPsychHtmlButtonResponse,
+                    stimulus: `
+                        <h2>Welcome!</h2>
+                        <p>You will be asked a few simple questions about the possible relationship
+                        between different things. The questions are unrelated to one another.</p>
+                        <p>For each question, you will read a statement and choose the most likely
+                        interpretation from the options presented.</p>
+                        <p>Please respond thoughtfully.</p>
+                    `,
+                    choices: ['Begin']
+                });
+
+                // Shuffle the order of conditions for this participant
+                const shuffled_conditions = jsPsych.randomization.shuffle([...active_conditions]);
+
+                for (const condition of shuffled_conditions) {
+                    // Independently assign version A or B for each condition
+                    const version = Math.random() < 0.5 ? 'A' : 'B';
+                    const v = condition[version];
+
+                    // Build and shuffle the three answer choices
+                    const choices_info = jsPsych.randomization.shuffle([
+                        { text: v.xy,      type: 'xy' },
+                        { text: v.yx,      type: 'yx' },
+                        { text: v.neither, type: 'neither' }
+                    ]);
+
+                    timeline.push({
+                        type: jsPsychHtmlButtonResponse,
+                        stimulus: `
+                            <p>Suppose you read the following piece of information:</p>
+                            <p class="trial-statement">&ldquo;${v.statement}&rdquo;</p>
+                            <p><strong>Which of the following is most likely?</strong></p>
+                        `,
+                        choices: choices_info.map(c => c.text),
+                        data: {
+                            task: 'causal_judgment',
+                            condition: condition.name,
+                            version: version,
+                            column_name: `${condition.name}_${version}`,
+                            statement: v.statement,
+                            choice_order: choices_info.map(c => c.type).join(',')
+                        },
+                        on_finish: function(data) {
+                            data.response_text = choices_info[data.response].text;
+                            data.response_type = choices_info[data.response].type;
+                        }
+                    });
+                }
+
+                // Screening question (used for data quality checks, matching original study)
+                timeline.push({
+                    type: jsPsychSurveyText,
+                    questions: [{
+                        prompt: 'Please describe, in a few words, what you were asked to do in this experiment?',
+                        name: 'explain',
+                        rows: 3,
+                        required: true
+                    }],
+                    data: { task: 'screening' }
+                });
+
+                // Optional comments
+                timeline.push({
+                    type: jsPsychSurveyText,
+                    questions: [{
+                        prompt: 'Do you have any comments or feedback about this study? (optional)',
+                        name: 'comments',
+                        rows: 3,
+                        required: false
+                    }],
+                    data: { task: 'comments' }
+                });
+
+                // Final screen — on_finish fires after participant clicks, triggering CSV download
+                timeline.push({
+                    type: jsPsychHtmlButtonResponse,
+                    stimulus: `
+                        <h2>You have completed the study!</h2>
+                        <p>Thank you for your participation. Click below to finish.</p>
+                    `,
+                    choices: ['Finish & Download Data']
+                });
+
+                jsPsych.run(timeline);
+            })
+            .catch(err => {
+                document.body.innerHTML = `
+                    <div style="max-width:600px;margin:100px auto;font-family:sans-serif;color:#c00;">
+                        <h2>Could not load stimuli</h2>
+                        <p>${err.message}</p>
+                        <p>Make sure you are serving the experiment from a web server, not opening
+                        the file directly. From the repo root, run:<br>
+                        <code>python3 -m http.server</code><br>
+                        then open <code>http://localhost:8000/src/study3.html</code>.</p>
+                    </div>
+                `;
+            });
+    </script>
+</body>
+</html>

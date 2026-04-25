@@ -30,11 +30,13 @@ From the original paper:
 
 ### Materials
 
+Materials are available at https://osf.io/u34ex/overview?view_only=1ffdf6729af149d6b14f7e32692c0334.
+
 ### Procedure	
 
 From the original paper:
 
-"Participants were informedthat they would be asked a few simple questions about the possible relationship between different things, and that the questions were unrelated to one another. The ordering of the nonsense term pairs within each question, the ordering of the forced choice answers to each question, and the question order of the five questions was randomized."
+"Participants were informed that they would be asked a few simple questions about the possible relationship between different things, and that the questions were unrelated to one another. The ordering of the nonsense term pairs within each question, the ordering of the forced choice answers to each question, and the question order of the five questions was randomized."
 
 ### Analysis Plan
 
