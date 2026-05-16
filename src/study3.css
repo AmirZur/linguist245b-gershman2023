@@ -1,12 +1,18 @@
-.jspsych-html-button-response-btngroup {
-    display: flex;
-    flex-direction: column;
+#jspsych-html-button-response-btngroup {
+    display: flex !important;
+    flex-direction: column !important;
+    flex-wrap: nowrap !important;
     align-items: center;
+}
+.jspsych-html-button-response-button {
+    width: 100% !important;
+    display: flex !important;
+    justify-content: center;
 }
 .jspsych-html-button-response-button button {
     white-space: normal;
-    width: 520px;
-    max-width: 90vw;
+    width: 620px;
+    max-width: 95vw;
     min-height: 48px;
     height: auto;
     line-height: 1.5;
@@ -17,11 +23,47 @@
 .trial-statement {
     font-style: italic;
     font-size: 1.15em;
-    margin: 24px 0;
+    margin: 24px 0 8px;
     color: #222;
+}
+.trial-question {
+    margin-top: 0;
 }
 .jspsych-display-element p {
     max-width: 620px;
     margin-left: auto;
     margin-right: auto;
+}
+.consent-text {
+    max-width: 680px;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 14px;
+    line-height: 1.6;
+}
+.consent-text p {
+    max-width: 680px;
+}
+.consent-button {
+    width: 180px;
+    padding: 10px 20px;
+    font-size: 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 6px;
+}
+.consent-button.agree {
+    background-color: #2a6ebb;
+    color: white;
+}
+.consent-button.agree:hover {
+    background-color: #1e56a0;
+}
+.consent-button.disagree {
+    background-color: #aaa;
+    color: white;
+}
+.consent-button.disagree:hover {
+    background-color: #888;
 }
