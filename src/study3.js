@@ -139,16 +139,14 @@ fetch('../materials/stimuli.csv')
         const version_order = jsPsych.randomization.shuffle(base_versions);
         let version_index = 0;
 
+        // Shuffle choice order once per participant and reuse across all trials
+        const choice_types_order = jsPsych.randomization.shuffle(['xy', 'yx', 'neither']);
+
         for (const condition of shuffled_conditions) {
             const version = version_order[version_index++ % version_order.length];
             const v = condition[version];
 
-            // Build and shuffle the three answer choices
-            const choices_info = jsPsych.randomization.shuffle([
-                { text: v.xy,      type: 'xy' },
-                { text: v.yx,      type: 'yx' },
-                { text: v.neither, type: 'neither' }
-            ]);
+            const choices_info = choice_types_order.map(type => ({ text: v[type], type }));
 
             timeline.push({
                 type: jsPsychHtmlButtonResponse,
