@@ -4,8 +4,8 @@ const jsPsych = initJsPsych({
             <div style="max-width:600px;margin:100px auto;text-align:center;font-family:sans-serif;">
                 <h2>Thank you for participating!</h2>
                 <p>Your responses have been saved.</p>
-                <p>Your completion code is: <strong>CYX8754C</strong></p>
-                <p><a href="https://app.prolific.com/submissions/complete?cc=CYX8754C">Click here to return to Prolific and claim your payment.</a></p>
+                <p>Your completion code is: <strong>C1M8S19P</strong></p>
+                <p><a href="https://app.prolific.com/submissions/complete?cc=C1M8S19P">Click here to return to Prolific and claim your payment.</a></p>
             </div>
         `;
     }
@@ -216,12 +216,12 @@ fetch('../materials/stimuli.csv')
             stimulus: `
                 <h2>You have completed the study!</h2>
                 <p>Thank you for your participation.</p>
-                <p>Your completion code is: <strong>CYX8754C</strong></p>
+                <p>Your completion code is: <strong>C1M8S19P</strong></p>
                 <p>Click the button below to return to Prolific and claim your payment.</p>
             `,
             choices: ['Return to Prolific'],
             on_finish: function() {
-                window.location.href = 'https://app.prolific.com/submissions/complete?cc=CYX8754C';
+                window.location.href = 'https://app.prolific.com/submissions/complete?cc=C1M8S19P';
             }
         });
 
