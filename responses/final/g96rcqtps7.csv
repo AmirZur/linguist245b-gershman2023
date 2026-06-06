@@ -1,0 +1,44 @@
+"rt","stimulus","response","trial_type","trial_index","time_elapsed","internal_node_id","consent_response","consent_timestamp","task","response_text","response_type","condition","version","column_name","statement","choice_order"
+"1574","<div class=""consent-text""> <h2>Consent Agreement</h2> <p> Please read this consent agreement carefully before deciding whether to participate in this experiment. </p> <p> <strong>Description:</strong> You are invited to participate in a research study about language and language learning. The purpose of the research is to understand how people learn new words. This research will be conducted through the Prolific platform, including participants from the US, UK, and Canada. If you decide to participate in this research, you will learn and use new words. </p> <p> <strong>Time Involvement:</strong> The task will last the amount of time advertised on Prolific. You are free to withdraw from the study at any time. </p> <p> <strong>Risks and Benefits:</strong> Study data will be stored securely, in compliance with Stanford University standards, minimizing the risk of confiden-tiality breach. This study advances our scientific understanding of how people learn new languages. We cannot and do not guarantee or promise that you will receive any benefits from this study. </p> <p> <strong>Compensation:</strong> You will receive payment in the amount advertised on Prolific. If you do not complete this study, you will receive prorated payment based on the time that you have spent. Additionally, you may be eligible for bonus payments as described in the instructions. </p> <p> <strong>Participant's Rights:</strong> If you have read this form and have decided to participate in this project, please understand your participation is voluntary and you have the right to withdraw your consent or discontinue participation at any time without penalty or loss of benefits to which you are otherwise entitled. The alternative is not to participate. You have the right to refuse to answer particular questions. The results of this research study may be presented at scientific or professional meetings or published in scientific journals. Your individual privacy will be maintained in all published and writ-ten data resulting from the study. In accordance with scientific norms, the data from this study may be used or shared with other researchers for future research (after removing personally identifying information) without additional consent from you. </p> <p> <strong>Contact Information:</strong> If you have any questions, concerns or complaints about this research, its procedures, risks and benefits, contact the Protocol Director, Robert Hawkins (<a href=""mailto:rdhawkins@stanford.edu"">rdhawkins@stanford.edu</a>, 217-549-6923). </p> <p> <strong>Independant Contact:</strong> If you are not satisfied with how this study is being conducted, or if you have any concerns, com-plaints, or general questions about the research or your rights as a participant, please contact the Stanford Institutional Review Board (IRB) to speak to someone independent of the research team at 650-723-2480 or toll free at 1-866-680-2906, or email at irbnonmed@stanford.edu. You can also write to the Stanford IRB, Stanford University, 1705 El Camino Real, Palo Alto, CA 94306. Please save or print a copy of this page for your records. </p> <p> <strong>If you agree to participate in this research, please click ""I agree""</strong> </p></br> </div>","0","html-button-response","0","1577","0.0-0.0","agree","2026-05-18T19:32:19.119Z","","","","","","","",""
+"757","
+                <h2>Welcome!</h2>
+                <p>You will be asked a few simple questions about the possible relationship
+                between different things. The questions are unrelated to one another.</p>
+                <p>For each question, you will read a statement and choose the most likely
+                interpretation from the options presented.</p>
+                <p>Please respond thoughtfully.</p>
+            ","0","html-button-response","1","2335","0.0-1.0","","","","","","","","","",""
+"1143","
+        <p>Before we begin, here is a practice question to familiarize you with the format.</p>
+        <p>Suppose you read the following piece of information:</p>
+        <p class=""trial-statement"">&ldquo;While Maria was typing her report, the phone rang.&rdquo;</p>
+        <p class=""trial-question"">Which of the following is most likely?</p>
+    ","1","html-button-response","2","3479","0.0-2.0","","","practice","Maria began her report first","correct","","","","",""
+"510","
+                    <p>Suppose you read the following piece of information:</p>
+                    <p class=""trial-statement"">&ldquo;Themaglin is associated with a higher risk of Rebosen&rdquo;</p>
+                    <p class=""trial-question"">Which of the following is most likely?</p>
+                ","1","html-button-response","3","3989","0.0-3.0","","","causal_judgment","Themaglin causes an increase in Rebosen","xy","risk_increase","A","risk_increase_A","Themaglin is associated with a higher risk of Rebosen","yx,xy,neither"
+"364","
+                    <p>Suppose you read the following piece of information:</p>
+                    <p class=""trial-statement"">&ldquo;Turilin is associated with lower probability of Laurem&rdquo;</p>
+                    <p class=""trial-question"">Which of the following is most likely?</p>
+                ","2","html-button-response","4","4354","0.0-4.0","","","causal_judgment","A third factor is causally related to Turilin and Laurem, they are not directly related","neither","prob_lower","A","prob_lower_A","Turilin is associated with lower probability of Laurem","yx,xy,neither"
+"433","
+                    <p>Suppose you read the following piece of information:</p>
+                    <p class=""trial-statement"">&ldquo;Flembers is associated with Denoden&rdquo;</p>
+                    <p class=""trial-question"">Which of the following is most likely?</p>
+                ","1","html-button-response","5","4787","0.0-5.0","","","causal_judgment","A third factor is causally related to Flembers and Denoden, they are not directly related","neither","assoc","B","assoc_B","Flembers is associated with Denoden","yx,neither,xy"
+"401","
+                    <p>Suppose you read the following piece of information:</p>
+                    <p class=""trial-statement"">&ldquo;Efogen is associated with higher probability of Pneuben&rdquo;</p>
+                    <p class=""trial-question"">Which of the following is most likely?</p>
+                ","2","html-button-response","6","5189","0.0-6.0","","","causal_judgment","Efogen causes an increase in Pneuben","xy","prob_increase","B","prob_increase_B","Efogen is associated with higher probability of Pneuben","neither,yx,xy"
+"434","
+                    <p>Suppose you read the following piece of information:</p>
+                    <p class=""trial-statement"">&ldquo;Agoriv is associated with a lower risk of Ceflar&rdquo;</p>
+                    <p class=""trial-question"">Which of the following is most likely?</p>
+                ","0","html-button-response","7","5623","0.0-7.0","","","causal_judgment","Agoriv causes a decrease in Ceflar","xy","risk_lower","A","risk_lower_A","Agoriv is associated with a lower risk of Ceflar","xy,yx,neither"
+"1664","","{""explain"":""asd""}","survey-text","8","7292","0.0-8.0","","","screening","","","","","","",""
+"860","","{""comments"":""""}","survey-text","9","8154","0.0-9.0","","","comments","","","","","","",""
+"6844","","{""age"":"""",""gender"":"""",""native_language"":"""",""education"":""""}","survey-text","10","15000","0.0-10.0","","","demographics","","","","","","",""

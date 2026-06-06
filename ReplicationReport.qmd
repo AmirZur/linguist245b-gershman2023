@@ -1,63 +1,113 @@
 ---
-title: "Replication of Study X by Sample & Sample (20xx, Psychological Science)"
-author: "Replication Author[s] (contact information)"
+title: "Replication of Gershman & Ullman (2023): Causal Implicatures from Correlational Statements"
+author: "Amir Zur"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 format:
-  html:
+  markdown:
     toc: true
     toc_depth: 3
 ---
 
 <!-- Replication reports should all use this template to standardize reporting across projects.  These reports will be public supplementary materials that accompany the summary report(s) of the aggregate results. -->
 
+```{r include=F}
+library(tidyverse)
+library(pwr)
+```
+
 ## Introduction
 
-This is a replication of Gershman and Ullman (2023), Causal implicatures from correlational statements. In the study, participants chose the cause in a correlational statement with nonce words, e.g., "Themaglin is associated with Pneuben".
+Although it is commonly observed that correlation does not imply causation, people do use correlational statements to inform their causal models of the world. That is, in a conversation about topic $A$, the statement ``$A$ \textit{is associated with} $B$'' can lead a listener to interpret that a causal relationship holds between $A$ and $B$. As Lassiter and Franke (2024) observe, this inference is plausibly guided by pragmatic assumptions: a speaker who endeavors to say relevant things would not mention a correlation they believe is spurious (except  in a conversation about surprising, accidental correlations). Because non-causal correlations are not informative, a listener can infer that statements about correlations are intended by the speaker as relevant to a causal world model.
 
-The replication project focuses on Study 3, where participants had a tertiary option: "A third factor is causally related to [X] and [Y], they are not directly related".
+Gershman and Ullman (2023) report that English speakers reading about associations between nonce words ($A$ \textit{is associated with} $B$) preferred to interpret the subject as an effect rather than cause. Why participants have this preference is unclear, given that the predicate describes a symmetric relationship. That is, causes and effects are equally plausible in subject position when readers have clear expectations about the likely direction of causation (\textit{smoking is associated with cancer} and \textit{cancer is associated with smoking}).
+
+This report is a replication of Gershman and Ullman (2023). In the study, participants chose the cause from a correlational statement with nonce words. For example, seeing "Themaglin is associated with Pneuben", participants were asked to choose whether "Themaglin causes Pneuben" or "Pneuben causes Themaglin". We replicated Study 3, where participants had a third option: "A third factor is causally related to [X] and [Y], they are not directly related". Surprisingly, Gershman and Ullman (2023) find that the $B \to A$ interpretation flips when the third option is presented; whereas most participants opted for "Neither", participants significantly preferred $A \to B$ to $B \to A$. We find that this result doesn't replicate, suggesting that participants are equally likely to choose between $A \to B$ and $B \to A$ when presented with a third "Neither" option.
 
 ## Methods
 
 ### Power Analysis
 
-Original effect size, power analysis for samples to achieve 80%, 90%, 95% power to detect that effect size.  Considerations of feasibility for selecting planned sample size.
+Because Study 3 does not report effect sizes directly, we estimated required sample sizes using the effect size from Study 2's risk increase condition (nonsense-names version), where the proportion of participants choosing $A \to B$ was $M = 0.94$ ($SE = 0.02$, $Z = 17.91$, $p < 10^{-71}$). This represents a strong effect and serves as a reference for Study 3. We converted to Cohen's $h$ for a one-sample proportion $z$-test against chance ($p_\emptyset = 0.5$).
+
+```{r include=F}
+h <- ES.h(0.94, 0.5)
+
+n_80 <- ceiling(pwr.p.test(h = h, power = 0.80, sig.level = 0.05)$n)
+n_90 <- ceiling(pwr.p.test(h = h, power = 0.90, sig.level = 0.05)$n)
+n_95 <- ceiling(pwr.p.test(h = h, power = 0.95, sig.level = 0.05)$n)
+
+df.power <- tibble(
+  n     = seq(5, 30, by = 1),
+  power = map_dbl(n, ~pwr.p.test(h = h, n = .x, sig.level = 0.05)$power)
+)
+```
+
+The estimated Cohen's h is `r round(h, 2)`. To achieve 80%, 90%, and 95% power requires sample sizes of n = `r n_80`, `r n_90`, and `r n_95`, respectively. This means that the planned sample of 100 participants is more than sufficient for our purposes.
+
+```{r echo=F}
+ggplot(df.power, aes(x = n, y = power)) +
+  geom_line(linewidth = 1) +
+  geom_hline(yintercept = c(0.80, 0.90, 0.95), linetype = "dashed", color = "gray50") +
+  annotate("label", x = 30, y = c(0.80, 0.90, 0.95),
+           label = c("80%", "90%", "95%"), hjust = 1, size = 3.5, label.size = 0) +
+  geom_vline(xintercept = c(n_80, n_90, n_95), linetype = "dotted", color = "gray70") +
+  scale_y_continuous(labels = scales::percent, limits = c(0, 1),
+                     breaks = seq(0, 1, 0.2)) +
+  labs(x = "Sample Size (n)", y = "Power",
+       title = sprintf("Power analysis (Cohen's h = %.2f, α = 0.05)", h)) +
+  theme_classic(base_size = 14)
+```
 
 ### Planned Sample
 
-From the original paper:
+We followed the original paper in recruiting participants.
 
-"[Gershman and Ullman] recruited 100 participants, matching the sample sizes of the different conditions. Written/verbal informed consent was obtained from all participants for inclusion in the study. Participants were US-based. No participants were excluded. The mean age of participants was 34.8, 63 identified as female, and 37 identified as male."
+> "We recruited 100 participants, matching the sample sizes of the different conditions. Written/verbal informed consent was obtained from all participants for inclusion in the study. Participants were US-based. No participants were excluded. The mean age of participants was 34.8, 63 identified as female, and 37 identified as male."
+
+However, in our setting, we recruited English-speaking participants from outside of the United States in addition to US-based participant.
 
 ### Materials
 
-Materials are available at https://osf.io/u34ex/overview?view_only=1ffdf6729af149d6b14f7e32692c0334.
+We used the original materials, which include a list of nonce words and templates for "X is associated with [an increased/decreased risk/probability of] Y". The materials are available at https://osf.io/u34ex/overview?view_only=1ffdf6729af149d6b14f7e32692c0334.
 
-### Procedure	
+### Procedure
 
-From the original paper:
+We followed the original procedure from the paper.
 
-"Participants were informed that they would be asked a few simple questions about the possible relationship between different things, and that the questions were unrelated to one another. The ordering of the nonsense term pairs within each question, the ordering of the forced choice answers to each question, and the question order of the five questions was randomized."
+> "Participants were informed that they would be asked a few simple questions about the possible relationship between different things, and that the questions were unrelated to one another. The ordering of the nonsense term pairs within each question, the ordering of the forced choice answers to each question, and the question order of the five questions was randomized."
+
+Our participants saw a consent form before opting to begin the study. We also included a warm-up activity where participants were asked to infer the order of events in a sentence. For example, reading "While Maria was typing her report, the phone rang", participants were asked to judge whether the typing of the report or the ringing of the phone took place first.
 
 ### Analysis Plan
 
-Can also quote directly, though it is less often spelled out effectively for an analysis strategy section.  The key is to report an analysis strategy that is as close to the original - data cleaning rules, data exclusion rules, covariates, etc. - as possible.  
+Within each of the five conditions (risk increase, risk decrease, probability increase, probability decrease, and simple association), we conducted three pairwise two-sided proportion $z$-tests comparing: (1) $A \to B$ versus $B \to A$; (2) $A \to B$ versus Neither; and (3) $B \to A$ versus Neither. This yielded 15 total comparisons, corrected for multiple comparisons using the Holm-Bonferroni procedure.
 
-**Clarify key analysis of interest here**  You can also pre-specify additional analyses you plan to do.
+We focus on testing whether the surprising finding that the rate $A \to B$ responses differs from the proportion of $B \to A$ responses replicates. The original paper found that $A \to B$ was chosen significantly more often than $B \to A$ in the association condition (whereas $B \to A$ was chosen significantly more often when Neither wasn't included).
 
 ### Differences from Original Study
 
-Explicitly describe known differences in sample, setting, procedure, and analysis plan from original study.  The goal, of course, is to minimize those differences, but differences will inevitably occur.  Also, note whether such differences are anticipated to make a difference based on claims in the original article or subsequent published research on the conditions for obtaining the effect.
+The original study recruited exclusively US-based participants. This replication was conducted via Prolific with eligibility extended to participants in the US, UK, and Canada, which may introduce cross-national variation in how causal language is interpreted. Additionally, the original study was administered as a standalone survey; the current replication used the same stimuli and logic but was implemented via jsPsych and hosted on a web server.
 
 ### Methods Addendum (Post Data Collection)
 
-You can comment this section out prior to final report with data collection.
-
 #### Actual Sample
-  Sample size, demographics, data exclusions based on rules spelled out in analysis plan
 
-#### Differences from pre-data collection methods plan
-  Any differences from what was described as the original plan, or “none”.
+```{r include=F}
+df.demo <- read_csv("responses/demographics/prolific_demographics.csv") |>
+  filter(Status == "APPROVED") |>
+  mutate(Age = as.numeric(Age))
 
+n_sample <- nrow(df.demo)
+mean_age <- round(mean(df.demo$Age, na.rm = TRUE), 1)
+sd_age   <- round(sd(df.demo$Age, na.rm = TRUE), 1)
+min_age  <- min(df.demo$Age, na.rm = TRUE)
+max_age  <- max(df.demo$Age, na.rm = TRUE)
+n_female <- sum(df.demo$Sex == "Female", na.rm = TRUE)
+n_male   <- sum(df.demo$Sex == "Male", na.rm = TRUE)
+n_pnts   <- sum(df.demo$Sex == "Prefer not to say", na.rm = TRUE)
+```
+
+We recruited `r n_sample` participants via Prolific (mean age = `r mean_age`, SD = `r sd_age`, range `r min_age`–`r max_age`; `r n_female` identified as female, `r n_male` as male, `r n_pnts` preferred not to say). No participants were excluded.
 
 ## Results
 
@@ -65,35 +115,141 @@ You can comment this section out prior to final report with data collection.
 ### Data preparation
 
 Data preparation following the analysis plan.
-	
-```{r include=F}
-### Data Preparation
 
-#### Load Relevant Libraries and Functions
+```{r message=F}
+condition_labels <- c(
+  prob_lower    = "Probability\nDecrease",
+  risk_lower    = "Risk\nDecrease",
+  prob_increase = "Probability\nIncrease",
+  risk_increase = "Risk\nIncrease",
+  assoc         = "Association"
+)
 
-#### Import data
+response_labels <- c(
+  xy      = "X → Y",
+  yx      = "Y → X",
+  neither = "neither"
+)
 
-#### Data exclusion / filtering
+df.causal_inference <- read_csv("responses/processed/final.csv") |>
+  filter(task == "causal_judgment") |>
+  mutate(
+    condition = factor(recode(condition, !!!condition_labels),
+                       levels = c("Risk\nIncrease", "Risk\nDecrease", "Probability\nIncrease",
+                                  "Probability\nDecrease", "Association")),
+    response  = factor(recode(response_type, !!!response_labels),
+                       levels = c("X → Y", "Y → X", "neither"))
+  )
 
-#### Prepare data for analysis - create columns etc.
+df.summary <- df.causal_inference |>
+  count(condition, response) |>
+  group_by(condition) |>
+  mutate(
+    pct = n / sum(n),
+    se = sqrt(pct * (1 - pct) / sum(n))
+  )
 ```
 
 ### Confirmatory analysis
 
-The analyses as specified in the analysis plan.  
+```{r}
+ggplot(df.summary, aes(x = condition, y = pct, fill = response)) +
+  geom_col(position = position_dodge(width = 0.9), color = "black") +
+  geom_errorbar(aes(ymin = pct - se, ymax = pct + se),
+                position = position_dodge(width = 0.9), width = 0.25) +
+  scale_y_continuous(breaks = seq(from = 0, to = 1, by = 0.2),
+                     labels = scales::percent, expand = F) +
+  coord_cartesian(ylim = c(0, 1)) +
+  labs(x = "", y = "% of Participants", fill = "") +
+  theme_classic() +
+  theme(legend.position = c(0.88, 0.88), text = element_text(size = 20)) +
+  scale_fill_manual(values=c("#6c757d", "#ced4da", "#f8f9fa"))
 
-*Side-by-side graph with original graph is ideal here*
+ggsave(filename = "replication.pdf",
+       width = 8,
+       height = 6)
+```
+
+We conducted 15 pairwise two-sided proportion $z$-tests (3 per condition) and applied the Holm-Bonferroni correction across all comparisons.
+
+```{r warning = FALSE}
+get_tests <- function(xy, yx, nei) {
+  n <- xy + yx + nei
+  pz_stat <- function(a, b) {
+    pp <- (a + b) / (2 * n)
+    se <- sqrt(pp * (1 - pp) * 2 / n)
+    (a / n - b / n) / se
+  }
+  z_vals <- c(pz_stat(xy, yx), pz_stat(xy, nei), pz_stat(yx, nei))
+  tibble(
+    comparison = c("X→Y vs Y→X", "X→Y vs Neither", "Y→X vs Neither"),
+    Z     = round(z_vals, 2),
+    p_raw = 2 * pnorm(-abs(z_vals))
+  )
+}
+
+df.counts <- df.causal_inference |>
+  count(condition, response) |>
+  pivot_wider(names_from = response, values_from = n, values_fill = 0) |>
+  rename(xy = `X → Y`, yx = `Y → X`, nei = neither)
+
+df.tests <- df.counts |>
+  mutate(tests = pmap(list(xy, yx, nei), get_tests)) |>
+  unnest(tests) |>
+  mutate(p_adj = p.adjust(p_raw, method = "holm")) |>
+  arrange(condition, comparison) |>
+  mutate(
+    sig = case_when(
+      p_adj < .001 ~ "***",
+      p_adj < .01  ~ "**",
+      p_adj < .05  ~ "*",
+      TRUE         ~ "ns"
+    ),
+    condition = str_replace_all(as.character(condition), "\n", " ")
+  )
+
+df.tests |>
+  select(Condition = condition, Comparison = comparison, Z,
+         `p (raw)` = p_raw, `p (Holm-Bonf.)` = p_adj, ` ` = sig) |>
+  mutate(
+    `p (raw)`        = format.pval(`p (raw)`, digits = 3, eps = 0.001),
+    `p (Holm-Bonf.)` = format.pval(`p (Holm-Bonf.)`, digits = 3, eps = 0.001)
+  ) |>
+  knitr::kable(caption = "Pairwise proportion z-tests with Holm-Bonferroni correction")
+```
+
+In the conditions with additional context (all but Association), $A \to B$ is significantly higher than $B \to A$ and Neither, as the original study showed.However, the $A \to B$ versus $A \to B$ comparison in the Association condition yielded $Z =$ `r df.tests |> filter(condition == "Association", comparison == "X→Y vs Y→X") |> pull(Z)`, $p($Holm-Bonf.$) =$ `r df.tests |> filter(condition == "Association", comparison == "X→Y vs Y→X") |> pull(p_adj) |> format.pval(digits = 3, eps = 0.001)`. This didn't replicate: there was no significant difference between $A \to B$ and $A \to B$ in the association condition.
 
 ### Exploratory analyses
 
-Any follow-up analyses desired (not required).  
+We report the age distribution, country of residency, and sex identification of the participants below.
+
+```{r}
+df.demo |>
+  count(Sex) |>
+  mutate(`%` = scales::percent(n / sum(n), accuracy = 1)) |>
+  knitr::kable(caption = "Sex distribution of participants")
+
+df.demo |>
+  count(`Country of residence`) |>
+  arrange(desc(n)) |>
+  mutate(`%` = scales::percent(n / sum(n), accuracy = 1)) |>
+  knitr::kable(caption = "Country of residence")
+
+ggplot(df.demo, aes(x = Age)) +
+  geom_histogram(binwidth = 5, fill = "#6c757d", color = "white") +
+  labs(x = "Age", y = "Count", title = "Age distribution of participants") +
+  theme_classic(base_size = 14)
+```
 
 ## Discussion
 
 ### Summary of Replication Attempt
 
-Open the discussion section with a paragraph summarizing the primary result from the confirmatory analysis and the assessment of whether it replicated, partially replicated, or failed to replicate the original result.  
+The replication successfully reproduced the main findings of Gershman and Ullman (2023) Study 3 for all four directional-language conditions. Across risk increase, risk decrease, probability increase, and probability decrease conditions, the proportion of $A \to B$ responses was substantially and significantly higher than both $B \to A$ and Neither (all Holm-Bonferroni corrected $p < .001$), replicating the original finding that directional language reliably triggers a forward causal implicature. The association condition also replicated the finding that Neither was the most common response, with both Neither > $A \to B$ and Neither > $A \to B$ surviving correction, consistent with the interpretation that neutral association language does not strongly implicate direct causation.
+
+However, one finding that did not replicate was the directional asymmetry within the association condition. The original study found significantly more $A \to B$ than $A \to B$ responses for the simple association statement, but in our replication these proportions were nearly equal (27% vs. 22%) and did not differ significantly after correction ($Z = $`r df.tests |> filter(condition == "Association", comparison == "X→Y vs Y→X") |> pull(Z)`, $p = $ `r df.tests |> filter(condition == "Association", comparison == "X→Y vs Y→X") |> pull(p_adj) |> format.pval(digits = 3, eps = 0.001)`).
 
 ### Commentary
 
-Add open-ended commentary (if any) reflecting (a) insights from follow-up exploratory analysis, (b) assessment of the meaning of the replication (or not) - e.g., for a failure to replicate, are the differences between original and present study ones that definitely, plausibly, or are unlikely to have been moderators of the result, and (c) discussion of any objections or challenges raised by the current and original authors about the replication attempt.  None of these need to be long.
+The finding that the asymmetry between $A \to B$ and $B \to A$ did not replicate suggests that adding a Neither condition doesn't significantly change the way in which participants infer causation from correlation, and is a huge relief to me. I'm still curious about the $B \to A$ reading in the ambiguous case without the Neither condition.
